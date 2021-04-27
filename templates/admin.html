@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" class="dashboard">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome Admin</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
+  <link rel="stylesheet" href="./../static/admin.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+<body>
+
+<!-- partial:index.partial.html -->
+<header role="banner">
+  <h1>Admin Panel</h1>
+  <ul class="utilities">
+    <li class="users"><a href="#">{{name}}</a></li>
+    <li class="logout warn"><a href="/logout" >Log Out</a></li>
+  </ul>
+</header>
+
+<nav role="navigation">
+  <ul class="main">
+    <li class="dashboard"><a href="#dashboard">Dashboard</a></li>
+    <li class="write"><a href="#adduser">Add User</a></li>
+    <li class="edit"><a href="#update">Update Catalog</a></li>
+  </ul>
+</nav>
+
+<main role="main">
+  <section class="panel important">
+    <h2>Welcome to Your Dashboard </h2>
+  </section>
+  <section class="panel">
+    <h2>User Info</h2>
+    <ul>
+      <li><b>{{data.users}} </b>users have regestered. </li>
+
+    </ul>
+  </section>
+  <section class="panel">
+    <h2>Catelogue</h2>
+    <ul>
+      <li>The sale are good</li>
+      <li>To update the catelogue ,bgo to the catelogue option</li>
+    </ul>
+  </section>
+  <section class="panel important">
+    <h2>Portfolio</h2>
+    <form method="post" action="#">
+    <div id="parent">
+        <div id="left">
+          <ul>TOTAL INVESTED</ul>
+           <div id="price">
+          <ul> ₹<b>{{data.investment}}</b> </ul>
+        </div>
+          </div>
+        <div id="right">
+        <ul>PROFIT/LOSS </ul>
+           <div id="price">
+          <ul> ₹<b>{{data.income}}</b> </ul>
+
+        </div>
+        </div>
+    </div>
+      <input hidden name="type" value="update data" />
+       <input type="submit" class="button" value="Refresh" />
+      </div>
+    </form>
+  </section>
+  <section id="adduser" class="panel important">
+    <div class="twothirds">
+    <h2>Add a User</h2>
+    <form action="#" method="post">
+        <input hidden name="type" value="add" />
+        <label for="name">Username:</label>
+        <input type="text" name="name" id="name" placeholder="Usermane"  required />
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" placeholder="Email" required />
+        <label for="password">Password</label>
+        <input cols="40" rows="8" name="password" id="password"required/>
+        <input type="submit" value="Submit"/>
+    </form>
+    </div>
+    <h2>Delete a User</h2>
+    <form action="#" method="post">
+      <input hidden name="type" value="delete" />
+      <div class="onethird">
+
+        <label for="text">
+          <input type="text" name="username" id="text" value="" placeholder="Usermane"required />
+        </label>
+        <div>
+          <label for="checkbox">
+            <input type="checkbox" name="checkbox" id="checkbox" required /> Are you sure?
+          </label>
+        </div>
+        <div>
+          <input type="submit" value="Submit" />
+        </div>
+      </div>
+    </form>
+  </section>
+  <section id="update" class="panel" style="padding-bottom:4%;">
+    <h2>Update Catalog</h2>
+    <div style="padding:0 5% 0 5%">
+      <form action="#" method="post">
+        <input hidden name="type" value="update item" />
+        <label for="catagoryname">Catagoryname:</label>
+        <input type="text" name="catagoryname" id="catagoryname" placeholder="Catogoryname"required />
+        <label for="name">productname:</label>
+        <input type="text" name="name" id="name" placeholder="Productname" required/>
+        <label for="name">product Discription:</label>
+        <input type="text" name="discription" id="discription" placeholder="Product Discription" required/>
+        <label for="img">ImageUrl:</label>
+        <input type="url" name="img" id="img" placeholder="ImgURl" required/>
+        <label for="cost">Cost of Product:</label>
+        <input type="number" name="cost" id="cost" placeholder="cost of product"required/>
+        <label for="cost">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" placeholder="quantity of product"required/>
+        <input style="margin-left:30%" type="submit" value="Submit"/>
+    </form>
+    </div>
+
+  </section>
+  <section class="panel " >
+    <h2>Update Price</h2>
+    <div style="padding:0 5% 0 5%">
+    <form method="post" >
+      <input hidden name="type" value="update price" />
+        <label for="name">productname:</label>
+        <input type="text" name="name" id="name" placeholder="Productname" required/>
+      <label for="cost"> New Cost of Product:</label>
+        <input type="number" name="cost" id="cost" placeholder="cost of product"required/>
+      <input style="margin-left:30%" type="submit" value="Submit"/>
+    </form>
+      </div>
+  </section>
+   <section class="panel " style="padding-bottom:4%;margin-bottom:3%">
+    <h2>Products in Inventory</h2>
+    <table >
+      <tr>
+        <th>Catagory</th>
+        <th>Products</th>
+      </tr>
+      <tr>
+        <td><label >Last action:</label></td>
+        <td> {{action}}</td>
+      </tr>
+      <tr>
+        <ul>
+          {% if need is not none: %}
+             {% for i in need: %}
+               <li style="color:red;"> {{i}}</li>
+             {% endfor %}
+          {% endif %}
+        </ul>
+      </tr>
+    </table>
+
+  </section>
+
+</main>
+<footer role="contentinfo">Easy Admin Style by Team Avengersl</footer>
+<!-- partial -->
+  <script  src="./../static/admin.js"></script>
+
+</body>
+</html>

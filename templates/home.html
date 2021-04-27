@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <meta charset="utf-8">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./../static/home.css">
+    <style>
+      html{
+        scroll-behavior: smooth;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+      .b25{
+        background: #252525;
+      }
+      .b1{
+        background: #1b1b1b;
+      }
+      .outlineNone{
+        outline: none !important;
+        border:none;
+
+      }
+      .a:hover img{
+        transition: 0.3s ease-in-out;
+          transform: scale(1.05,1.05);
+          border: 1px solid #1b1b1b !important;
+      }
+      .aBord-none:hover img{
+        transition: 0.3s ease-in-out;
+          transform: scale(1.05,1.05);
+
+      }
+      .gotopbtn{
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        bottom: 4.5%;
+        right: 5%;
+        text-decoration: none;
+        text-align: center;
+        line-height: 50px;
+        z-index: 15
+      }
+    </style>
+    <title>Welcome, {{name}}</title>
+  </head>
+  <body id="body-start">
+    <div class="container-fluid">
+      <div class="row align-items-center p-2 b25 text-light">
+          <div class="col-md-3  d-none d-md-block h6">  +91 99490 97994</div>
+          <div class="col-md-3  d-none d-md-block h5 text-center"> Welcome to our store</div>
+          <div class="col-6 col-md-2  d-block">
+              <select class="custom-select bg-dark text-white" style="border: none;">
+                <option selected>IND</option>
+              </select>
+          </div>
+          <div class=" col-6 col-md-2 d-block">
+               <select class="custom-select bg-dark text-white" style="border: none;">
+                  <option selected>₹ (IND)</option>
+              </select>
+          </div>
+          <div class="col-md-2 col-lg-2 d-none d-md-block  ">
+           <div class="btn btn-outline-dark b25 text-white float-right">
+                <a href="/cart&checkout" >MyCart</a>
+           </div>
+          </div>
+
+      </div>
+
+    <div class="row b1  align-items-center p-1  text-light">
+      <div class="col-6 col-md-2 ">
+        <a href="#" class="link ml-1"><img src="https://icons-for-free.com/iconfiles/png/512/diamond-131979105288827632.png" alt="" loading="lazy" width="40" height="40"></a>
+      </div>
+      <div class="col-md-8  d-none d-md-block ">
+      </div>
+      <div class="col-6 col-md-2 pr-3 ">
+         <div class="dropdown float-right ">
+          <button class="btn b1 text-white dropdown-toggle  btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{name}}
+          </button>
+          <div class="dropdown-menu dropdown-menu-right " aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="/account_info#MyOrders">My Orders</a>
+              <a class="dropdown-item" href="/account_info">Account Settings</a>
+            <a class="dropdown-item" href=/logout>Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+ <!-- by Ruben Vardanyan -->
+<div class="row ">
+  <div class="col-12 p-0">
+         <nav class="navbar navbar-expand-xl navbar-dark b25">
+
+  <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="outline: none; border: none;">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse " id="navbarSupportedContent">
+    <ul class="navbar-nav mx-auto  ">
+
+
+       <li class="nav-item dropdown text-center mx-0 mx-lg-3">
+        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Home
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#depart">Shop by Department</a>
+          <a class="dropdown-item" href="#special">Special Furniture</a>
+          <a class="dropdown-item" href="#newOffers">New</a>
+          <a class="dropdown-item" href="#weTogether">We're in this together</a>
+        </div>
+      </li>
+       <li class="nav-item dropdown text-center mx-0 mx-lg-3">
+        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          About
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#weTogether">Term & Conditions</a>
+          <a class="dropdown-item" href="#weTogether">About Company</a>
+        </div>
+      </li>
+       <li class="nav-item dropdown text-center mx-0 mx-lg-3">
+        <a class="nav-link dropdown-toggle text-light" href="#weTogether" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Contact
+        </a>
+        <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#weTogether">Contact Us</a>
+          <a class="dropdown-item" href="#weTogether">Live chat</a>
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+</nav>
+  </div>
+</div>
+    </div>
+  <div id="carouselExampleFade" class="carousel slide carousel-fade " data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active" data-interval="5000">
+      <img src="https://podiumwalker.com/images/backgrounds-tut/living-example-01.png" class="d-block vw-100" alt="..."  style="max-height: 600px;">
+      <div class="carousel-caption d-none d-md-block">
+        <h3 class="mx-auto text-warning text-uppercase w-75 p-2 b25" style="border:5px solid #ffc107 !important">We produce quality furniture</h3>
+      </div>
+    </div>
+    <div class="carousel-item" data-interval="5000">
+      <img src="https://podiumwalker.com/images/backgrounds-tut/office-example-01.png" class="d-block vw-100" alt="..."  style="max-height: 600px;">
+       <div class="carousel-caption d-none d-md-block">
+        <h3 class="mx-auto text-warning text-uppercase w-75 p-2 b25" style="border:5px solid #ffc107 !important">Buy Furniture Online</h3>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid bg-warning">
+  <h5 class="pt-5  text-center text-uppercase m-0  text-dark  d-block d-md-none font-weight-bolder" >We produce quality furniture</h5>
+  <p class="text-center  text-dark pb-5 pt-3 m-0 h6  d-md-none font-weight-bolder" >Buy furniture online and get gifts</p>
+  <h3 class="text-center  text-dark  py-4 m-0  d-none d-md-block font-weight-bolder">Buy furniture online and get gifts</h3>
+</div>
+<!-- slider end -->
+<!-- deligation -->
+<div class="alert b25 text-light alert-dismissible fade show m-0 rounded-0 fixed-bottom " role="alert" style="opacity: 0.9;">
+  We work five days a week, 24 hours a day!!!
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<!-- deligation end -->
+<!-- content start-->
+<div class="container" id="depart">
+  <h3 class=" d-flex  justify-content-center  justify-content-sm-start mt-5 mb-3">Shop by Department</h3>
+  <div class="row  justify-content-center">
+   <div class="col-12 col-sm-4 col-lg">
+      <a href="/Home/Livingroom" class="a text-secondary nav-link ">
+       <div class="card border-0">
+          <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Sites-site-catalog-ashley-us/default/dw9bd05fc1/department-icons/sofas-and-couches.png" class="card-img-top border  border-warning rounded-circle" alt="..." >
+          <div class="card-body">
+            <h5 class="card-title text-center">Living room</h5>
+          </div>
+      </div>
+    </a>
+    </div>
+     <div class="col-12 col-sm-4 col-lg">
+      <a href="/Home/Bedroom" class="a text-secondary nav-link ">
+       <div class="card border-0">
+          <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Sites-site-catalog-ashley-us/default/dw3650eaf9/department-icons/bedroom.png" class="card-img-top border  border-warning rounded-circle" alt="..." >
+          <div class="card-body">
+            <h5 class="card-title text-center">Bedroom</h5>
+          </div>
+      </div>
+    </a>
+    </div>
+      <!-- new -->
+    <!-- new -->
+     <div class="col-12 col-sm-4 col-lg">
+      <a href="/Home/Outdoor" class="a text-secondary nav-link ">
+       <div class="card border-0">
+          <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Sites-site-catalog-ashley-us/default/dw3b1518f3/department-icons/outdoor.png" class="card-img-top border  border-warning rounded-circle" alt="..." >
+          <div class="card-body">
+            <h5 class="card-title text-center">Outdoor</h5>
+          </div>
+      </div>
+    </a>
+    </div>
+
+    <div class="col-12 col-sm-4 col-lg">
+      <a href="/Home/WorkStation" class="a text-secondary nav-link ">
+       <div class="card border-0">
+          <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Sites-site-catalog-ashley-us/default/dwa6d18fc6/department-icons/home-office_2.png" class="card-img-top border  border-warning rounded-circle" alt="..." >
+          <div class="card-body">
+            <h5 class="card-title text-center">Home office</h5>
+          </div>
+      </div>
+    </a>
+    </div>
+    <div class="col-12 col-sm-4 col-lg">
+      <a href="/Home/HomeDecor" class="a text-secondary nav-link ">
+       <div class="card border-0">
+          <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Sites-site-catalog-ashley-us/default/dw8fa96fd4/department-icons/home-decor.png" class="card-img-top border  border-warning rounded-circle" alt="..." >
+          <div class="card-body">
+            <h5 class="card-title text-center">Home decor</h5>
+          </div>
+      </div>
+    </a>
+    </div>
+  </div>
+</div>
+<!-- content part 1 end -->
+ <!-- by Ruben Vardanyan -->
+<!-- content part 2 start Special Offers -->
+<div class="container-fluid bg-warning  pb-5 px-0" id="special">
+    <h3 class="m-0 pt-2 text-center text-dark">New Deals</h3>
+    <div class="container-fluid b25 my-2 p-2">
+        <div class="container">
+          <a href="#depart" class="d-block my-2">
+             <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dwbe0f6d5d/images/homepage/20200616/S&S_G1_DK.jpg" class="img-fluid" alt="Responsive image">
+          </a>
+
+          <a href="#depart" class="d-block my-2">
+             <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dwef4316e1/images/homepage/20200616/S&S_J1_DK.jpg" class="img-fluid" alt="Responsive image">
+          </a>
+           <a href="#depart" class="d-block my-2">
+             <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dw42a53b2b/images/homepage/20200616/S&S_H1_DK.jpg" class="img-fluid" alt="Responsive image">
+          </a>
+        </div>
+    </div>
+</div>
+<!-- content part 2 end -->
+<!-- content part 3 New -->
+<div class="container" id="newOffers">
+   <h3 class=" d-flex  justify-content-center  justify-content-sm-start mt-5">NEW</h3>
+   <div class="row my-2 justify-content-center">
+     <div class="col-12 col-sm-6 col-lg-4 ">
+        <a href="#depart" class="aBord-none text-secondary nav-link ">
+       <div class="card border-0">
+          <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dw57e759dc/images/category/furniture/living-room/living-room-landing-20200220/LivingRoom_CLP_FeatThree_a.jpg" class="card-img-top border-0" alt="..." >
+          <div class="card-body">
+            <h5 class="card-title text-center font-weight-bold">small spaces</h5>
+            <p class="card-text text-center">less space means more style  per square foot</p>
+          </div>
+      </div>
+    </a>
+     </div>
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="#" class="aBord-none text-secondary nav-link ">
+       <div class="card border-0">
+          <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dw78a5c993/images/category/furniture/living-room/living-room-landing-20200220/LivingRoom_CLP_FeatThree_b.jpg" class="card-img-top border-0" alt="..." >
+          <div class="card-body">
+            <h5 class="card-title text-center font-weight-bold">lift top coffee tables</h5>
+            <p class="card-text text-center">from work to play, these  multifunctional tables do it all</p>
+          </div>
+      </div>
+    </a>
+     </div>
+      <div class="col-12 col-sm-6 col-lg-4">
+        <a href="#" class="aBord-none text-secondary nav-link ">
+       <div class="card border-0">
+          <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dw482e1c43/images/category/furniture/living-room/living-room-landing-20200220/LivingRoom_CLP_FeatThree_c.jpg" class="card-img-top border-0" alt="..." >
+          <div class="card-body">
+            <h5 class="card-title text-center font-weight-bold">tv stands</h5>
+            <p class="card-text text-center">all fireplace compatible, you'll love their versatility</p>
+          </div>
+      </div>
+    </a>
+     </div>
+
+
+   </div>
+</div>
+<!-- content part 3 end -->
+ <!-- by Ruben Vardanyan -->
+<!-- content part 4 about start -->
+<div class="container" id="weTogether">
+      <h3 class=" d-flex  justify-content-center  justify-content-sm-start mt-5">We are in this together</h3>
+      <div class="row">
+         <div class="col-12 col-sm-6 col-lg-3">
+
+               <div class="card border-0">
+                  <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dw7febee45/images/homepage/footer/20200512/MDS_N1b_Footer_DK.jpg" class="card-img-top border-0" alt="..." >
+                  <div class="card-body">
+                  </div>
+              </div>
+
+         </div>
+         <div class="col-12 col-sm-6 col-lg-3">
+           <a href="#" class=" text-secondary nav-link ">
+               <div class="card border-0">
+                  <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dwa6370a3f/images/homepage/footer/20200512/MDS_N1c_Footer_DK.jpg" class="card-img-top border-0" alt="..." >
+                  <div class="card-body">
+                  </div>
+              </div>
+            </a>
+         </div>
+         <div class="col-12 col-sm-6 col-lg-3">
+           <a href="#" class=" text-secondary nav-link ">
+               <div class="card border-0">
+                  <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dw6f39ef25/images/homepage/footer/20200512/MDS_N1a_Footer_DK.jpg" class="card-img-top border-0" alt="..." >
+                  <div class="card-body">
+                  </div>
+              </div>
+            </a>
+         </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+           <a href="#" class=" text-secondary nav-link ">
+               <div class="card border-0">
+                  <img src="https://www.ashleyfurniture.com/on/demandware.static/-/Library-Sites-AshcommSharedLibrary/default/dw2ce0442b/images/homepage/footer/20200512/MDS_N1d_Footer_DK.jpg" class="card-img-top border-0" alt="..." >
+                  <div class="card-body">
+                  </div>
+              </div>
+            </a>
+         </div>
+      </div>
+</div>
+
+ <!-- by Ruben Vardanyan -->
+<!-- footer start -->
+<div class="container-fluid">
+    <div class="row text-center b25 text-light text-uppercase pt-1">
+      <div class="col-12 col-md">
+        <a href="" class="nav-link  text-light h5">useful links</a>
+      </div>
+      <div class="col-12 col-md">
+        <a href="" class="nav-link  text-light h5">Stay connected</a>
+      </div>
+       <div class="col-12 col-md ">
+          <a href="" class="nav-link text-light h5">join us</a>
+      </div>
+       <div class="col-12 col-md ">
+          <a href="" class="nav-link text-light h5">term & conditions</a>
+      </div>
+
+    </div>
+
+    <div class="row b25 text-center">
+
+
+
+
+       <div class="col d-none d-md-block">
+        <ul class="list-group list-group-flush rounded-bottom">
+          <li class="list-group-item text-light bg-dark font-weight-bold"><a href="#body-start" class="text-decoration-none text-light">Home</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="#depart" class="text-decoration-none text-light">Shop by Department</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="#special" class="text-decoration-none text-light">Special Offers</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="#newOffers" class="text-decoration-none text-light">New</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="#weTogether" class="text-decoration-none text-light">We're in this together</a></li>
+        </ul>
+      </div>
+
+       <div class="col d-none d-md-block">
+        <ul class="list-group list-group-flush rounded-bottom">
+          <li class="list-group-item text-light bg-dark font-weight-bold"><a href="" class="text-decoration-none text-light">Connect with Us</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Facebook</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Instagram</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Twitter</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Youtube</a></li>
+        </ul>
+      </div>
+       <div class="col d-none d-md-block">
+        <ul class="list-group list-group-flush rounded-bottom">
+          <li class="list-group-item text-light bg-dark font-weight-bold"><a href="" class="text-decoration-none text-light">Join Our Team</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Make Money with Us</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Return and Refund Policy</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Fulfilment by us</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Sell under our acceleration</a></li>
+        </ul>
+      </div>
+       <div class="col d-none d-md-block">
+        <ul class="list-group list-group-flush rounded-bottom">
+          <li class="list-group-item text-light bg-dark font-weight-bold"><a href="" class="text-decoration-none text-light">FAQ</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">T&C</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Terms of Use</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">We respect your privacy</a></li>
+          <li class="list-group-item text-light bg-dark"><a href="" class="text-decoration-none text-light">Help</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="row b25 text-light">
+      <div class="col-12 text-center pt-3 pb-1">
+        <a href="#"> <img  class=" mr-2 ml-2" src="https://seeklogo.com/images/F/facebook-icon-circle-logo-09F32F61FF-seeklogo.com.png" loading="lazy" width="30" height="30"></a>
+       <a href="#"><img  class=" mr-2 ml-2" src="https://i1.wp.com/www.fashionrevolution.org/wp-content/uploads/2019/07/kisspng-social-media-marketing-youtube-instagram-photograp-instagram-logo-icon-png-5b875849ea5482.8768584615355966179598.png?fit=512%2C512&ssl=1" loading="lazy" width="30" height="30"></a>
+        <a href="#"><img  class=" mr-2 ml-2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/YouTube_social_white_circle_%282017%29.svg/1200px-YouTube_social_white_circle_%282017%29.svg.png"  loading="lazy" width="30" height="30"></a>
+        <a href="#"><img class=" mr-2 ml-2" src="https://3.bp.blogspot.com/-NxouMmz2bOY/T8_ac97cesI/AAAAAAAAGg0/e3vY1_bdnbE/s1600/Twitter+logo+2012.png" loading="lazy" width="30" height="30"></a>
+
+      </div>
+      <div class="col-12 text-center pt-1 pb-3">
+        &copy; Team Avengers
+      </div>
+    </div>
+  </div>
+
+<!-- footer -->
+<!-- scroll go top start -->
+<a id="myBtn" class="gotopbtn" href="#body-start"><img src="https://cdn3.iconfinder.com/data/icons/road-sign/154/road-sign-top-arrow-yellow-attention-512.png" width="50" height="50" loading="lazy"></a>
+<!-- scroll end -->
+
+<!-- loading start -->
+<div class="loader-wrapper"  >
+  <div class="loader-inner">
+     <div class="st1"></div>
+     <div class="st2"></div>
+     <div class="st3"></div>
+  </div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(window).on("load",function(){
+     $(".loader-wrapper").fadeOut("slow");
+});
+
+      window.onscroll = function() {scrollFunction()};
+
+      function scrollFunction() {
+        if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+          mybutton.style.display = "block";
+        } else {
+          mybutton.style.display = "none";
+        }
+      }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>
+

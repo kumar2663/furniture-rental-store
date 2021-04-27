@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>{{product}}</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'><link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="./../static/product.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/chartist/0.9.7/chartist.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.4/jquery-jvectormap.min.css'>
+  <link rel="stylesheet" href="./../static/account.css">
+
+</head>
+<body>
+<div {{status}} class="alert b25 text-light alert-dismissible fade show m-0 rounded-0 " role="alert" style="background: #252525;opacity: 0.9;">
+         you exceeded more items limit the quantity
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+       </button>
+    </div>
+<a class="back" style="margin-left:0;padding-right:50%;font-size:2rem;" href="/home"><-home</a>
+<a class="back" style="text-align:left;margin-right:0;padding-left:30%;font-size:2rem;" href="/cart&checkout">Cart-></a>
+
+<div class="product-card">
+    <div class="product-image" style="top:15%">
+    <img style="width: 200px;" src="{{image_url}}">
+  </div>
+  <div class="product-details">
+
+    <form method="post">
+        <input hidden name="type" value="product">
+    <h1>{{product}}</h1>
+    <p> {{discription}}</p>
+      <input type="number" name="quantity" value="" placeholder="no.of items" required min="1">
+          <input type="checkbox" name="type" value="feedback" required style="left:5%;opacity:1"><span style="margin-left:6%">Please click to make sure</span>
+        <button type="submit" value="submit" class="btn">ADD to Cart</button>
+    </form>
+  </div>
+</div>
+<div class="col s12 m12 l4" id="Feedback">
+          <ul id="issues-collection" class="collection">
+            <li class="collection-item avatar">
+              <div class="row">
+                   <div class="col s7">
+                       <span class="collection-header">Feedback</span>
+                        <p>Username</p>
+                       </div>
+              <a href="#" class="secondary-content"><i class="mdi-action-grade"></i></a>
+
+                <div class="col s2">
+                   <p> Review</p>
+                </div>
+              </div>
+            </li>
+              <li class="collection-item avatar">
+                  <form method="post">
+              <div class="row">
+                   <div class="col s7">
+                       <p>Please give Feedback</p>
+              <a href="#" class="secondary-content"><i class="mdi-action-grade"></i></a>
+               </div>
+                <div class="col s2">
+                   <input name="feedback" type="text" value="" required >
+                </div>
+                  <div class="col s3">
+                       <input type="checkbox" name="type" value="feedback" required style="left:0;opacity:1"><span>Please click check box</span>
+                      <input type="submit" value="Add Feedback" name="submit" style="left:5%">
+
+                  </div>
+              </div>
+                      </form>
+            </li>
+            {% if feedback is not none: %}
+               {% for i in range(feedback.split("/")|length-1) %}
+                   <li class="collection-item">
+                   <div class="row">
+                   <div class="col s7">
+                           <p class="collections-title"><strong>{{ feedback.split("/")[i].split("-")[0] }}</strong></p>
+                </div>
+                <div class="col s2">
+                   <p> {{ feedback.split("/")[i].split("-")[1] }}</p>
+                </div>
+              </div>
+            </li>
+                {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+</body>
+</html>

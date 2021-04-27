@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Account-{{username}}</title>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/chartist/0.9.7/chartist.min.css'>
+<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/jvectormap/2.0.4/jquery-jvectormap.min.css'>
+  <link rel="stylesheet" href="./../static/account.css">
+
+</head>
+<body>
+
+<div id="main">
+  <!-- START WRAPPER -->
+  <div class="wrapper">
+    <!-- START CONTENT -->
+    <section id="content">
+      <!--start container-->
+      <div class="container">
+        <!-- //////////////////////////////////////////////////////////////////////////// -->
+        <div id="work-collections">
+          <a class="back" style="margin-left:0;padding:0" href="/home"><-home</a>
+          <div class="row">
+            <div class="col s12 m6 l4">
+              <div id="profile-card" class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                  <img class="activator" src="http://demo.geekslabs.com/materialize/v2.1/layout03/images/user-bg.jpg" alt="user background">
+                </div>
+                <div class="card-content">
+                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAxledM7IOvo71TB72ceR_DdjBFxBVkrDCfXRyznQ-yq815ZsxWl-9Al0Sxav7KA6x7nE&usqp=CAU" alt="" class="circle responsive-img activator card-profile-image">
+                  <a class="btn-floating activator btn-move-up waves-effect waves-light darken-2 right">
+                    <i class="mdi-action-account-circle"></i>
+                  </a>
+
+                  <span class="card-title activator grey-text text-darken-4">{{username}}</span>
+                  <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i> {{address}}</p>
+                  <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> {{phone_number}}</p>
+                  <p><i class="mdi-communication-email cyan-text text-darken-2"></i> {{email}}</p>
+
+                </div>
+                <div class="card-reveal">
+                  <span class="card-title grey-text text-darken-4">Name:- {{username}} <i class="mdi-navigation-close right"></i></span>
+                  <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i>Address:- </p>
+                  <p><i class="mdi-social-cake cyan-text text-darken-2"></i> {{Address}}</p>
+                  <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i>Delivery-info:- </p>
+                  <p><i class="mdi-social-cake cyan-text text-darken-2"></i> {{Delivery_info}}</p>
+                  <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i>Phone Number:- </p>
+                  <p><i class="mdi-action-perm-phone-msg cyan-text text-darken-2"></i> {{phone_number}} </p>
+                  <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i>Email:- </p>
+                  <p><i class="mdi-communication-email cyan-text text-darken-2"></i> {{email}}</p>
+                  <p><i class="mdi-action-perm-identity cyan-text text-darken-2"></i>Additional Amount:- </p>
+                  <p><i class="mdi-communication-email cyan-text text-darken-2"></i> {{additional}}</p>
+                  <p><i class="mdi-social-cake cyan-text text-darken-2"></i> </p>
+                  <p><i class="mdi-device-airplanemode-on cyan-text text-darken-2"></i> INDIA</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col s12 m12 l8">
+              <form method="post" action="#">
+                <input hidden name="type" value="update">
+              <ul id="projects-collection" class="collection">
+                <li class="collection-item avatar">
+                  <i class="mdi-file-folder circle light-blue darken-2"></i>
+                  <span class="collection-header">{{username}}</span>
+                </li>
+                <li class="collection-item">
+                  <div class="row">
+                    <div class="col s6">
+                      <p class="collections-title">Choose one to update</p>
+                    </div>
+                    <div class="col s3">
+                      <p class="collections-title">Type Here to update</p>
+
+                    </div>
+                    <div class="col s3">
+                      <div id="project-line-2"><canvas width="135" height="30" style="display: inline-block; width: 135px; height: 30px; vertical-align: top;"></canvas></div>
+                    </div>
+                  </div>
+                </li>
+                <li class="collection-item">
+                  <div class="row">
+                    <div class="col s6">
+                      <p class="collections-title">
+                        <select name="selection-1" id="select-choice" required >
+                          <option value="choose">Click to choose</option>
+                         <option value="Delivery_info">Delivery Adress</option>
+                         <option value="Address">Address</option>
+                          <option value="email">email</option>
+                          </select>
+                      </p>
+                    </div>
+                    <div class="col s3">
+                      <p>
+                        <input type="text" name="input1" id="input1" placeholder="Updating info"  />
+                      </p>
+                    </div>
+                    <div class="col s3">
+                      <div id="project-line-1"><canvas width="135" height="30" style="display: inline-block; width: 135px; height: 30px; vertical-align: top;"></canvas></div>
+                    </div>
+                  </div>
+                </li>
+                <li class="collection-item">
+                  <div class="row">
+                    <div class="col s6">
+                      <p class="collections-title">
+                        <select name="selection-2" id="select-choice" required >
+                         <option value="choose">Click to choose</option>
+                         <option value="phone_number">Phone Number</option>
+                          </select>
+                      </p>
+                    </div>
+                    <div class="col s3">
+                      <input type="number" name="input-2" value="" placeholder="Updating info" />
+                    </div>
+                    <div class="col s3">
+                      <div id="project-line-1"><canvas width="135" height="30" style="display: inline-block; width: 135px; height: 30px; vertical-align: top;"></canvas></div>
+                    </div>
+                  </div>
+                </li>
+                <li class="collection-item">
+                  <div class="row">
+                    <div class="col s6">
+                       <input style="margin-left:70%" type="submit" value="Submit"/>
+                    </div>
+                    <div class="col s3">
+                      <div id="project-line-1"><canvas width="135" height="30" style="display: inline-block; width: 135px; height: 30px; vertical-align: top;"></canvas></div>
+                    </div>
+                    <div class="col s3">
+                      <div id="project-line-1"><canvas width="135" height="30" style="display: inline-block; width: 135px; height: 30px; vertical-align: top;"></canvas></div>
+                      <div id="project-line-1"><canvas width="135" height="30" style="display: inline-block; width: 135px; height: 30px; vertical-align: top;"></canvas></div>
+
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              </form>
+            </div>
+
+          </div>
+        </div>
+        <!--work collections end-->
+
+        <div class="col s12 m12 l4" id="MyOrders">
+          <ul id="issues-collection" class="collection">
+            <li class="collection-item avatar">
+              <div class="row">
+                   <div class="col s7">
+              <i class="mdi-action-bug-report circle red darken-2"></i>
+              <span class="collection-header">History</span>
+              <a href="#" class="secondary-content"><i class="mdi-action-grade"></i></a>
+               </div>
+                <div class="col s2">
+                   <p> Payment/month</p>
+                </div>
+              </div>
+            </li>
+                        {% if prev_order is not none: %}
+               {% for i in range(prev_order.split("//")|length-1) %}
+            <li class="collection-item avatar">
+              <div class="row">
+                   <div class="col s7">
+                     {% for j in range(prev_order.split("//")[i].split("/")|length) %}
+                           <p class="collections-title"><strong>{{ prev_order.split("//")[i].split("/")[j].split("-")[1] }}</strong>{{ prev_order.split("//")[i].split("/")[j].split("-")[0] }}</p>
+                  {% endfor %}
+              <a href="#" class="secondary-content"><i class="mdi-action-grade"></i></a>
+               </div>
+                <div class="col s2">
+                   <p> {{ cart_price.split("/")[i] }}</p>
+                </div>
+                <div class="col s3">
+                  <form method="post" >
+                    <input hidden name="type" value="return">
+                    <input hidden  name= "content" value="{{prev_order.split('//')[i]}}">
+                    {% if return_cart.split("/")[i] == '0': %}
+                    <input name="btn" type="submit" value="Return Order">
+
+
+                    {% else: %}
+                      <input type="checkbox" name="{{i}}"  required><label> check if additional amount paid?</label>
+                    {% endif %}
+                  </form>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </section>
+    <!-- END CONTENT -->
+
+    <!-- //////////////////////////////////////////////////////////////////////////// -->
+
+    <!-- START RIGHT SIDEBAR NAV-->
+    <aside id="right-sidebar-nav">
+      <ul id="chat-out" class="side-nav rightside-navigation right-aligned ps-container ps-active-y" style="width: 300px; right: -310px; height: 729px;">
+        <li class="li-hover">
+          <a href="#" data-activates="chat-out" class="chat-close-collapse right"><i class="mdi-navigation-close"></i></a>
+          <div id="right-search" class="row">
+            <form class="col s12">
+              <div class="input-field">
+                <i class="mdi-action-search prefix"></i>
+                <input id="icon_prefix" type="text" class="validate">
+                <label for="icon_prefix">Search</label>
+              </div>
+            </form>
+          </div>
+        </li>
+        <li class="li-hover">
+          <ul class="chat-collapsible" data-collapsible="expandable">
+            <li class="active">
+              <div class="collapsible-header teal white-text active"><i class="mdi-social-whatshot"></i>Recent Activity</div>
+              <div class="collapsible-body recent-activity" style="display: block;">
+                <div class="recent-activity-list chat-out-list row">
+                  <div class="col s3 recent-activity-list-icon"><i class="mdi-action-add-shopping-cart"></i>
+                  </div>
+                  <div class="col s9 recent-activity-list-text">
+                    <a href="#">just now</a>
+                    <p>Jim Doe Purchased new equipments for zonal office.</p>
+                  </div>
+                </div>
+                <div class="recent-activity-list chat-out-list row">
+                  <div class="col s3 recent-activity-list-icon"><i class="mdi-device-airplanemode-on"></i>
+                  </div>
+                  <div class="col s9 recent-activity-list-text">
+                    <a href="#">Yesterday</a>
+                    <p>Your Next flight for USA will be on 15th August 2015.</p>
+                  </div>
+                </div>
+                <div class="recent-activity-list chat-out-list row">
+                  <div class="col s3 recent-activity-list-icon"><i class="mdi-action-settings-voice"></i>
+                  </div>
+                  <div class="col s9 recent-activity-list-text">
+                    <a href="#">5 Days Ago</a>
+                    <p>Natalya Parker Send you a voice mail for next conference.</p>
+                  </div>
+                </div>
+                <div class="recent-activity-list chat-out-list row">
+                  <div class="col s3 recent-activity-list-icon"><i class="mdi-action-store"></i>
+                  </div>
+                  <div class="col s9 recent-activity-list-text">
+                    <a href="#">Last Week</a>
+                    <p>Jessy Jay open a new store at S.G Road.</p>
+                  </div>
+                </div>
+                <div class="recent-activity-list chat-out-list row">
+                  <div class="col s3 recent-activity-list-icon"><i class="mdi-action-settings-voice"></i>
+                  </div>
+                  <div class="col s9 recent-activity-list-text">
+                    <a href="#">5 Days Ago</a>
+                    <p>Natalya Parker Send you a voice mail for next conference.</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="active">
+              <div class="collapsible-header light-blue white-text active"><i class="mdi-editor-attach-money"></i>Sales Repoart</div>
+              <div class="collapsible-body sales-repoart" style="display: block;">
+                <div class="sales-repoart-list  chat-out-list row">
+                  <div class="col s8">Target Salse</div>
+                  <div class="col s4"><span id="sales-line-1"><canvas width="33" height="30" style="display: inline-block; width: 33px; height: 30px; vertical-align: top;"></canvas></span>
+                  </div>
+                </div>
+                <div class="sales-repoart-list chat-out-list row">
+                  <div class="col s8">Payment Due</div>
+                  <div class="col s4"><span id="sales-bar-1"><canvas width="32" height="25" style="display: inline-block; width: 32px; height: 25px; vertical-align: top;"></canvas></span>
+                  </div>
+                </div>
+                <div class="sales-repoart-list chat-out-list row">
+                  <div class="col s8">Total Delivery</div>
+                  <div class="col s4"><span id="sales-line-2"><canvas width="33" height="30" style="display: inline-block; width: 33px; height: 30px; vertical-align: top;"></canvas></span>
+                  </div>
+                </div>
+                <div class="sales-repoart-list chat-out-list row">
+                  <div class="col s8">Total Progress</div>
+                  <div class="col s4"><span id="sales-bar-2"><canvas width="32" height="25" style="display: inline-block; width: 32px; height: 25px; vertical-align: top;"></canvas></span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header red white-text"><i class="mdi-action-stars"></i>Favorite Associates</div>
+              <div class="collapsible-body favorite-associates">
+                <div class="favorite-associate-list chat-out-list row">
+                  <div class="col s4"><img src="images/avatar.jpg" alt="" class="circle responsive-img online-user valign profile-image">
+                  </div>
+                  <div class="col s8">
+                    <p>Eileen Sideways</p>
+                    <p class="place">Los Angeles, CA</p>
+                  </div>
+                </div>
+                <div class="favorite-associate-list chat-out-list row">
+                  <div class="col s4"><img src="images/avatar.jpg" alt="" class="circle responsive-img online-user valign profile-image">
+                  </div>
+                  <div class="col s8">
+                    <p>Zaham Sindil</p>
+                    <p class="place">San Francisco, CA</p>
+                  </div>
+                </div>
+                <div class="favorite-associate-list chat-out-list row">
+                  <div class="col s4"><img src="images/avatar.jpg" alt="" class="circle responsive-img offline-user valign profile-image">
+                  </div>
+                  <div class="col s8">
+                    <p>Renov Leongal</p>
+                    <p class="place">Cebu City, Philippines</p>
+                  </div>
+                </div>
+                <div class="favorite-associate-list chat-out-list row">
+                  <div class="col s4"><img src="images/avatar.jpg" alt="" class="circle responsive-img online-user valign profile-image">
+                  </div>
+                  <div class="col s8">
+                    <p>Weno Carasbong</p>
+                    <p>Tokyo, Japan</p>
+                  </div>
+                </div>
+                <div class="favorite-associate-list chat-out-list row">
+                  <div class="col s4"><img src="images/avatar.jpg" alt="" class="circle responsive-img offline-user valign profile-image">
+                  </div>
+                  <div class="col s8">
+                    <p>Nusja Nawancali</p>
+                    <p class="place">Bangkok, Thailand</p>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+          <div class="ps-scrollbar-x" style="left: 0px; width: 0px;"></div>
+        </div>
+        <div class="ps-scrollbar-y-rail" style="top: 0px; height: 669px; right: 3px;">
+          <div class="ps-scrollbar-y" style="top: 0px; height: 613px;"></div>
+        </div>
+      </ul>
+    </aside>
+    <!-- LEFT RIGHT SIDEBAR NAV-->
+
+    </div>
+    <!-- END WRAPPER -->
+
+    </div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/chartist/0.9.7/chartist.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.10/js/min/perfect-scrollbar.jquery.min.js'></script>
+<script  src="./../static/account.js"></script>
+
+</body>
+</html>

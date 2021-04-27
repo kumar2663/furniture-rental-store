@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>{{name}}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="./../static/productlist.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<header class="header">
+  <div class="container header__top">
+      <a class="back"style="margin-left:0;padding:0" href="/home"><-home</a>
+    <div class="header__logo">
+      <h1 class="header__title">
+        TEAM
+        <span class="header__subtitle">avengers</span>
+      </h1>
+    </div>
+    <div class="header__cart">
+        <a class="back"style="margin-left:0;padding:0" href="/cart&checkout">MyCart</a>
+    </div>
+  </div>
+  <div class="header__main">
+    <p class="display-title text-light">
+      Buy the Best Rental Furniture
+    </p>
+  </div>
+  <div class="arrow"><svg width="24" height="24" viewBox="0 0 24 24">
+  <path d="M11,4H13V16L18.5,10.5L19.92,11.92L12,19.84L4.08,11.92L5.5,10.5L11,16V4Z"></path>
+</svg></div>
+</header>
+
+<main class="container page-content" style="margin-left:10%;margin-right:10%;">
+  <h2 class="page-title">{{list['product-1']['catogory']}} Furniture</h2>
+    {% for key in list.keys() %}
+
+        <div class="card" style="padding-right:60px;display:inline-block;margin-bottom:5%;">
+          <img src="{{list[key]['image_url']}}" style="width: 300px;" class="card__image" alt="">
+          <div class="card__info">
+             <h4 class="card__title" >{{list[key]['product']}}</h4>
+            {% if list[key]['sold_items'] >= list[key]['no_of_items'] %}
+                <p style="text-align: center;color: red;">Currently Unavialable</p>
+            {% endif %}
+             <p class="card__text">{{list[key]['discription']}}</p>
+             <p class="card__price">Rs {{list[key]['selling_cost']}} permonth</p>
+            <a class="card__btn" data-id="{{list[key]['product']}}" href="/{{list[key]['catogory']}}/{{list[key]['product']}}">View in full page</a>
+          </div>
+        </div>
+    {% endfor %}
+</main>
+<footer class="footer">
+  <div class="container footer__container">
+    <div class="footer__links">
+    <ul class="footer__list">
+      <li class="footer__list-item"><a class="footer__link-item" href="#">About us</a></li>
+      <li class="footer__list-item"><a class="footer__link-item" href="#">Legal</a></li>
+    </ul>
+  </div>
+  <div class="credits">
+    <p class="credits__small-text">&copy;2020 TEAM Avengers</p>
+  </div>
+  </div>
+</footer>
+<!-- partial -->
+  <script  src="./../static/productlist.js"></script>
+
+</body>
+</html>
