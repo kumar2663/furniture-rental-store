@@ -5,11 +5,11 @@ from Product import Category, Product, RentingCart, Orders
 from return_cart import Return
 
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Kvijay@26'
-app.config['MYSQL_DB'] = 'furnitureDB'
-app.config['MYSQL_PORT'] = 4080
+app.config['MYSQL_HOST'] = 'sql6.freesqldatabase.com'
+app.config['MYSQL_USER'] = 'sql6408613'
+app.config['MYSQL_PASSWORD'] = 'eIr9EPBUVN'
+app.config['MYSQL_DB'] = 'sql6408613'
+app.config['MYSQL_PORT'] = 3306
 app.secret_key = "iamvijaykumar"
 mysql = MySQL(app)
 data = {
