@@ -13,12 +13,15 @@
 
 </head>
 <body>
-<div {{status}} class="alert b25 text-light alert-dismissible fade show m-0 rounded-0 " role="alert" style="background: #252525;opacity: 0.9;">
-         you exceeded more items limit the quantity
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-       </button>
-    </div>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <div style="border: 2px solid red;border-radius: 2px;background-color: crimson;text-align: center;font-size: revert;">
+        <p>{{ message }}</p>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 <a class="back" style="margin-left:0;padding-right:50%;font-size:2rem;" href="/home"><-home</a>
 <a class="back" style="text-align:left;margin-right:0;padding-left:30%;font-size:2rem;" href="/cart&checkout">Cart-></a>
 

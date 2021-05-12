@@ -1,14 +1,14 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_mysqldb import MySQL
 from user import Customer, Adminstrator, User
 from Product import Category, Product, RentingCart, Orders
 from return_cart import Return
 
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'sql6.freesqldatabase.com'
-app.config['MYSQL_USER'] = 'sql6408613'
-app.config['MYSQL_PASSWORD'] = 'eIr9EPBUVN'
-app.config['MYSQL_DB'] = 'sql6408613'
+app.config['MYSQL_HOST'] = 'remotemysql.com'
+app.config['MYSQL_USER'] = 'p8t6kzaeEk'
+app.config['MYSQL_PASSWORD'] = '5R9kzJJJ41'
+app.config['MYSQL_DB'] = 'p8t6kzaeEk'
 app.config['MYSQL_PORT'] = 3306
 app.secret_key = "iamvijaykumar"
 mysql = MySQL(app)
@@ -85,9 +85,9 @@ def join_admin():
                 user.deleteuser(details['username'])
             if details['type'] == "update item":
                 if user.updatecatalog(details):
-                    return render_template("admin.html", name=session["username"], action="Successful", need=need, data= data)
+                    return render_template("admin.html", name=session["username"], action="Successful", need=need, data=data)
                 else:
-                    return render_template("admin.html", name=session["username"], action="Unsuccessful", need=need, data = data)
+                    return render_template("admin.html", name=session["username"], action="Unsuccessful", need=need, data=data)
             if details['type'] == "update price":
                 if user.updateprice(details):
                     return render_template("admin.html", name=session["username"], action="Successful", need=need, data=data)
@@ -117,10 +117,9 @@ def acoount_info():
         if details['type'] == "update":
             if details['selection-1'] != "choose":
                 info = user.updateprofile(details['selection-1'], details['input1'], info, mysql)
-                return render_template('account.html', **info)
             if details['selection-2'] != "choose":
                 info = user.updateprofile(details['selection-2'], details['input-2'], info, mysql)
-                return render_template('account.html', **info)
+            return render_template('account.html', **info)
     return render_template('account.html', **info)
 
 
@@ -155,14 +154,14 @@ def product(category, name):
         details = request.form
         if details['type'] == "product":
             if not rent.addcartitem(item, details['quantity']):
-                return render_template('product.html', **item.getproductdetails(), status=" ")
+                flash("You have exceded the limit limit your quantity")
+                return render_template('product.html', **item.getproductdetails())
             else:
                 return render_template('productlist.html', name=category, list=cato.getproductsincategory())
         if details['type'] == "feedback":
             item.addfeedback(session['username'], details['feedback'])
-            return render_template('product.html', **item.getproductdetails(), status="hidden")
-
-    return render_template('product.html', **item.getproductdetails(), status="hidden")
+            return render_template('product.html', **item.getproductdetails())
+    return render_template('product.html', **item.getproductdetails())
 
 
 @app.route("/forgot_password", methods=["GET", "POST"])
@@ -186,7 +185,6 @@ def cart():
     rent = RentingCart(session['username'], mysql)
     content = rent.viewcartdetails()
     cost = rent.calprice(content)
-    y = 0
     if request.method == "POST":
         details = request.form
         print(details)
@@ -200,19 +198,22 @@ def cart():
                     item = Product(i.split("_")[1], i.split("_")[0], mysql)
                     rent.deletecartitem(item, "1")
                     return redirect(url_for("cart"))
-        if details['type'] == "payment":
-            if details['payment'] == "Loan":
-                order = Orders(rent, session['username'], mysql)
-                order.placeorder(rent.calprice(content, "1"), "1")
-                return redirect(url_for("acoount_info"))
-            if details['payment'] == "complete payment":
-                order = Orders(rent, session['username'], mysql)
-                order.placeorder(rent.calprice(content))
-                return redirect(url_for("acoount_info"))
+        user = Customer(session['username'])
+        if user.data_updated(mysql):
+            if details['type'] == "payment":
+                if details['payment'] == "Loan":
+                    order = Orders(rent, session['username'], mysql)
+                    order.placeorder(rent.calprice(content, "1"), "1")
+                    return redirect(url_for("acoount_info"))
+                if details['payment'] == "complete payment":
+                    order = Orders(rent, session['username'], mysql)
+                    order.placeorder(rent.calprice(content))
+                    return redirect(url_for("acoount_info"))
+        else:
+            flash("Please fill all the details Delivery Adress and Adress and phoneNumber")
+            return render_template('checkout.html', contents=content, cost=cost)
     return render_template('checkout.html', contents=content, cost=cost)
 
 
 if __name__ == "__main__":
-    app.run()
-
-
+    app.run(debug=True)

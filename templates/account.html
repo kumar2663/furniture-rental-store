@@ -87,7 +87,6 @@
                           <option value="choose">Click to choose</option>
                          <option value="Delivery_info">Delivery Adress</option>
                          <option value="Address">Address</option>
-                          <option value="email">email</option>
                           </select>
                       </p>
                     </div>
@@ -112,7 +111,7 @@
                       </p>
                     </div>
                     <div class="col s3">
-                      <input type="number" name="input-2" value="" placeholder="Updating info" />
+                      <input type="number" name="input-2" value="" placeholder="Updating info" min="1000000000" max="9999999999" />
                     </div>
                     <div class="col s3">
                       <div id="project-line-1"><canvas width="135" height="30" style="display: inline-block; width: 135px; height: 30px; vertical-align: top;"></canvas></div>
@@ -174,7 +173,7 @@
                     <input hidden name="type" value="return">
                     <input hidden  name= "content" value="{{prev_order.split('//')[i]}}">
                     {% if return_cart.split("/")[i] == '0': %}
-                    <input name="btn" type="submit" value="Return Order">
+                    <input name={{"btn-"+i|string}} type="submit" value="Return Order">
 
 
                     {% else: %}

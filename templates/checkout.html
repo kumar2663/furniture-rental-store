@@ -112,6 +112,15 @@ span.price {
 </style>
 </head>
 <body>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      <div style="border: 2px solid red;border-radius: 2px;background-color: crimson;text-align: center;font-size: revert;">
+        <p>{{ message }}</p>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 <h1 style="text-align:center">CheckOut && Cart</h1>
 <a class="back"style="margin-left:0;padding:0" href="/home"><-home</a>
 <br>

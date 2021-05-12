@@ -49,11 +49,12 @@ class Customer:
         cur = database.connection.cursor()
 
         try:
-            cur.execute("INSERT INTO MyUsers(username, email, user_pass) VALUES (%s,%s, %s)", [self.username, self.email, self.password])
+            cur.execute("INSERT INTO MyUsers(username, email, user_pass) VALUES (%s,%s, %s)",
+                        [self.username, self.email, self.password])
             database.connection.commit()
             print(1)
             return True
-        except Exception :
+        except Exception:
             return False
         finally:
             cur.close()
@@ -88,6 +89,18 @@ class Customer:
             else:
                 info[e[_][0]] = "___________"
         return info
+
+    def data_updated(self, mysql):
+        cur = mysql.connection.cursor()
+        q = 'SELECT * FROM MyUsers WHERE username LIKE %s'
+        cur.execute(q, [self.username])
+        d = cur.fetchone()
+        mysql.connection.commit()
+        cur.close()
+        if d[3] is None or d[4] is None or d[5] is None:
+            return False
+        else:
+            return True
 
 
 class Adminstrator:
@@ -130,7 +143,7 @@ class Adminstrator:
             self.database.connection.commit()
             cur.close()
             return True
-        except Exception :
+        except Exception:
             return False
 
     def attention(self):
@@ -141,7 +154,7 @@ class Adminstrator:
         e = list(e)
         k = []
         for i in e:
-            if int(i[1])-int(i[2]) <= 1:
+            if int(i[1]) - int(i[2]) <= 1:
                 k.append(i[0])
         self.database.connection.commit()
         cur.close()
@@ -164,6 +177,3 @@ class Adminstrator:
         self.database.connection.commit()
         cur.close()
         return data
-
-
-

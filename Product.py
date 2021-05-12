@@ -33,6 +33,7 @@ class Product:
         q = 'SELECT * FROM furniture WHERE product LIKE %s'
         cur.execute(q, [name])
         d = cur.fetchall()
+        mysql.connection.commit()
         d = list(d)
         q = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE ' \
             'TABLE_NAME = "furniture" ORDER BY ORDINAL_POSITION'
@@ -42,8 +43,9 @@ class Product:
         mysql.connection.commit()
         cur.close()
         product_list = {}
-        for j in range(len(e)):
-            product_list[e[j][0]] = d[0][j]
+        if d:
+            for j in range(len(e)):
+                product_list[e[j][0]] = d[0][j]
         self.p = product_list
         if product_list != {}:
             self.database = mysql
@@ -54,6 +56,7 @@ class Product:
             self.image_url = product_list['image_url']
             self.no_of_items = product_list['no_of_items']
             self.sold_items = product_list['sold_items']
+            self.feedback = product_list['feedback']
 
     def getproductdetails(self):
         return self.p
@@ -237,11 +240,12 @@ class RentingCart:
         e = cur.fetchall()
         e = e[0][0]
         if e is None:
-            q = 'SELECT renting_cart,return_cart FROM MyUsers WHERE username LIKE %s'
+            q = 'SELECT renting_cart FROM MyUsers WHERE username LIKE %s'
             cur.execute(q, [self.username])
             self.database.connection.commit()
             c = cur.fetchall()
-            e = c[0][0]
+            c = c[0][0]
+            e = c
             q = 'UPDATE MyUsers SET prev_order=%s WHERE username=%s'
             cur.execute(q, [e + '/', self.username])
             self.database.connection.commit()
@@ -269,7 +273,6 @@ class RentingCart:
         else:
             cur.execute(q, ['8', self.username])
             self.database.connection.commit()
-
         q = 'SELECT cart_price FROM MyUsers WHERE username LIKE %s'
         cur.execute(q, [self.username])
         self.database.connection.commit()
@@ -287,6 +290,7 @@ class RentingCart:
         cur.execute(q, ["vijay 6326"])
         self.database.connection.commit()
         c = cur.fetchall()
+        print(c)
         c = c[0][0]
         if c is None:
             q = 'UPDATE MyUsers SET cart_price=%s WHERE username=%s'
