@@ -6,4 +6,4 @@ this is have two types customer and administrator
 Administrator details
 Username:- vijay 6326
 password:- Kvijay@26
-you can visit site from https://furniture-rental-store.herokuapp.com/
+you can visit site from https://furniture-rentalstore.herokuapp.com/
