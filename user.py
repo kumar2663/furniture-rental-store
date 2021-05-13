@@ -102,6 +102,59 @@ class Customer:
         else:
             return True
 
+    def Complete_Pending_Order(self, details, mysql):
+        changedone = False
+        details = details.split("///")
+        order = list(eval(details[1]).keys())
+        order = "/".join(order)
+        print(order)
+        cur = mysql.connection.cursor()
+        q = 'SELECT pending_order,pending_order_prices FROM MyUsers WHERE username LIKE %s'
+        cur.execute(q, [self.username])
+        d = list(cur.fetchone())
+        mysql.connection.commit()
+        d[0] = list(d[0].split("//"))
+        d[1] = list(d[1].split("/"))
+        print(d)
+        cost = ""
+        for i in d[0]:
+            if i == order:
+                cost = d[1][d[0].index(i)]
+                d[1].remove(d[1][d[0].index(i)])
+                d[0].remove(i)
+                changedone = True
+        d[0] = "//".join(d[0])
+        d[1] = "/".join(d[1])
+        if changedone:
+            if d[0] == "" and d[1] == "":
+                q = 'UPDATE MyUsers SET pending_order= NULL,pending_order_prices=NULL WHERE username LIKE %s'
+                cur.execute(q, [details[0]])
+            else:
+                q = 'UPDATE MyUsers SET pending_order= %s,pending_order_prices=%s WHERE username LIKE %s'
+                cur.execute(q, [d[0], d[1], details[0]])
+            mysql.connection.commit()
+            q = 'SELECT prev_order,cart_price,return_cart FROM MyUsers WHERE username LIKE %s'
+            cur.execute(q, [self.username])
+            d = list(cur.fetchone())
+            mysql.connection.commit()
+            if d[0] is None:
+                d[0] = order + "//"
+            else:
+                d[0] = d[0]+order + "//"
+            if d[1] is None:
+                d[1] = cost + "/"
+            else:
+                d[1] = d[1] + cost + "/"
+            if d[2] is None:
+                d[2] = "0/"
+            else:
+                d[2] = d[2] + "0/"
+            q = 'UPDATE MyUsers SET prev_order= %s,cart_price=%s,return_cart=%s WHERE username LIKE %s'
+            cur.execute(q, [d[0], d[1], d[2], details[0]])
+            mysql.connection.commit()
+        cur.close()
+        return changedone
+
 
 class Adminstrator:
     def __init__(self, mysql):

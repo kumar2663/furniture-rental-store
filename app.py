@@ -72,7 +72,6 @@ def hello():
                     return redirect(url_for("join_admin"))
                 elif user.login(details['password'], mysql):
                     session["username"] = details['username']
-                    session['email'] = details["email"]
                     return redirect(url_for("home"))
                 else:
                     return render_template('login.html', type=' ', name='password')
@@ -204,7 +203,6 @@ def cart():
     cost = rent.calprice(content)
     if request.method == "POST":
         details = request.form
-        print(details)
         if details['type'] == "cart":
             for i in details:
                 if details[i] == "+":
@@ -219,13 +217,15 @@ def cart():
         if user.data_updated(mysql):
             if details['type'] == "payment":
                 if details['payment'] == "complete payment":
-                    token = generate_confirmation_token("kvijaykumar6326@gmail.com", app.secret_key, app.config['SECURITY_PASSWORD_SALT'])
+                    token = generate_confirmation_token(f"{session['username']}///{content}///{details}",
+                                                        app.secret_key, app.config['SECURITY_PASSWORD_SALT'])
                     confirm_url = url_for('confirm_email', token=token, _external=True)
                     mail.init_app(app)
                     template = f'<p>An Order has been booked please confirm if you received payment.' \
                                f'</p>{session["username"]}<p>' \
                                f'<a href="{confirm_url}">{confirm_url}</a></p><br><p>Cheers!</p> '
-                    send_email(app.config['DEFAULT_MAIL_SENDER'], "kvijaykumar6326@gmail.com", f"An Order is placed by {session['username']}", template)
+                    send_email(app.config['DEFAULT_MAIL_SENDER'], "furniturerentalstore@gmail.com",
+                               f"An Order is placed by {session['username']}", template)
                     order = Orders(rent, session['username'], mysql)
                     order.placeorder(rent.calprice(content))
                     return redirect(url_for("acoount_info"))
@@ -235,13 +235,38 @@ def cart():
     return render_template('checkout.html', contents=content, cost=cost)
 
 
-@app.route('/confirm/<token>')
-@login_required
+@app.route('/confirm/<token>', methods=["GET", "POST"])
 def confirm_email(token):
-    email = confirm_token(token, app.secret_key, app.config['SECURITY_PASSWORD_SALT'])
-    print(email)
-    flash('You have confirmed your account. Thanks!', 'success')
-    return redirect(url_for('account_info'))
+    username = confirm_token(token, app.secret_key, app.config['SECURITY_PASSWORD_SALT'])
+    details = username.split("///")[1]
+    details = eval(details)
+    if request.method == "POST":
+        customer = Customer(username.split("///")[0])
+        if customer.Complete_Pending_Order(username, mysql):
+            cur = mysql.connection.cursor()
+            q = 'SELECT email FROM MyUsers WHERE username LIKE %s'
+            cur.execute(q, [username.split("///")[0]])
+            email = cur.fetchone()[0]
+            template = f'<p>Your Order is successful you can visit and verify from our website' \
+                       f'<br><p>Cheers!</p> '
+            send_email(app.config['DEFAULT_MAIL_SENDER'], email,
+                       f"{username.split('///')[0]}, Your Order has been conformed", template)
+            flash('Order Payment is confirmed. Thanks!', 'success')
+            return render_template("confirm.html",
+                                   user=username.split("///")[0],
+                                   details=list(dict(details).keys()),
+                                   bank=eval(username.split("///")[2].split("[")[1].split("]")[0])[1][1])
+        else:
+            flash('Conformation is Already')
+            return render_template("confirm.html",
+                                   user=username.split("///")[0],
+                                   details=list(dict(details).keys()),
+                                   bank=eval(username.split("///")[2].split("[")[1].split("]")[0])[1][1])
+
+    return render_template("confirm.html",
+                           user=username.split("///")[0],
+                           details=list(dict(details).keys()),
+                           bank=eval(username.split("///")[2].split("[")[1].split("]")[0])[1][1])
 
 
 if __name__ == "__main__":

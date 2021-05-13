@@ -306,18 +306,3 @@ class Orders:
     def placeorder(self, cost):
         self.cart.viewcartdetails()
         self.cart.checkout(cost)
-        cur = self.database.connection.cursor()
-        q = 'SELECT return_cart FROM MyUsers WHERE username LIKE %s'
-        cur.execute(q, [self.username])
-        self.database.connection.commit()
-        e = cur.fetchall()
-        e = e[0][0]
-        if e is not None:
-            q = 'UPDATE MyUsers SET return_cart=%s WHERE username=%s'
-            cur.execute(q, [e+"0/", self.username])
-            self.database.connection.commit()
-        else:
-            q = 'UPDATE MyUsers SET return_cart=%s WHERE username=%s'
-            cur.execute(q, ["0/", self.username])
-            self.database.connection.commit()
-        cur.close()
