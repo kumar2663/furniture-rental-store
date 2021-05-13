@@ -232,9 +232,9 @@ class RentingCart:
                 price = price
         return str(price)
 
-    def checkout(self, cost, intrest=None):
+    def checkout(self, cost):
         cur = self.database.connection.cursor()
-        q = 'SELECT prev_order FROM MyUsers WHERE username LIKE %s'
+        q = 'SELECT pending_order FROM MyUsers WHERE username LIKE %s'
         cur.execute(q, [self.username])
         self.database.connection.commit()
         e = cur.fetchall()
@@ -246,7 +246,7 @@ class RentingCart:
             c = cur.fetchall()
             c = c[0][0]
             e = c
-            q = 'UPDATE MyUsers SET prev_order=%s WHERE username=%s'
+            q = 'UPDATE MyUsers SET pending_order=%s WHERE username=%s'
             cur.execute(q, [e + '/', self.username])
             self.database.connection.commit()
             q = 'UPDATE MyUsers SET renting_cart=NULL WHERE username=%s'
@@ -259,48 +259,39 @@ class RentingCart:
             c = cur.fetchall()
             c = c[0][0]
             e = e + c
-            q = 'UPDATE MyUsers SET prev_order=%s WHERE username=%s'
+            q = 'UPDATE MyUsers SET pending_order=%s WHERE username=%s'
             cur.execute(q, [e + '/', self.username])
             self.database.connection.commit()
             q = 'UPDATE MyUsers SET renting_cart=NULL WHERE username=%s'
             cur.execute(q, [self.username])
             self.database.connection.commit()
-        q = 'UPDATE MyUsers SET intrest=%s WHERE username=%s'
-        if len(e[0][0].split("//")) >= 3:
-            cur.execute(q, ['4', self.username])
-            self.database.connection.commit()
-            cur = self.database.connection.cursor()
-        else:
-            cur.execute(q, ['8', self.username])
-            self.database.connection.commit()
-        q = 'SELECT cart_price FROM MyUsers WHERE username LIKE %s'
+        q = 'SELECT pending_order_prices FROM MyUsers WHERE username LIKE %s'
         cur.execute(q, [self.username])
         self.database.connection.commit()
         c = cur.fetchall()
         c = c[0][0]
         if c is None:
-            q = 'UPDATE MyUsers SET cart_price=%s WHERE username=%s'
+            q = 'UPDATE MyUsers SET pending_order_prices=%s WHERE username=%s'
             cur.execute(q, [str(cost) + '/', self.username])
             self.database.connection.commit()
         else:
-            q = 'UPDATE MyUsers SET cart_price=%s WHERE username=%s'
+            q = 'UPDATE MyUsers SET pending_order_prices=%s WHERE username=%s'
             cur.execute(q, [c + str(cost) + '/', self.username])
             self.database.connection.commit()
-        q = 'SELECT cart_price FROM MyUsers WHERE username LIKE %s'
-        cur.execute(q, ["vijay 6326"])
-        self.database.connection.commit()
-        c = cur.fetchall()
-        print(c)
-        c = c[0][0]
-        if c is None:
-            q = 'UPDATE MyUsers SET cart_price=%s WHERE username=%s'
-            cur.execute(q, [cost, "vijay 6326"])
-            self.database.connection.commit()
-        else:
-            q = 'UPDATE MyUsers SET cart_price=%s WHERE username=%s'
-            cost = str(int(c.split("/")[0]) + int(cost))
-            cur.execute(q, [cost, "vijay 6326"])
-            self.database.connection.commit()
+        # q = 'SELECT cart_price FROM MyUsers WHERE username LIKE %s'
+        # cur.execute(q, ["vijay 6326"])
+        # self.database.connection.commit()
+        # c = cur.fetchall()
+        # c = c[0][0]
+        # if c is None:
+        #     q = 'UPDATE MyUsers SET cart_price=%s WHERE username=%s'
+        #     cur.execute(q, [cost, "vijay 6326"])
+        #     self.database.connection.commit()
+        # else:
+        #     q = 'UPDATE MyUsers SET cart_price=%s WHERE username=%s'
+        #     cost = str(int(c.split("/")[0]) + int(cost))
+        #     cur.execute(q, [cost, "vijay 6326"])
+        #     self.database.connection.commit()
         cur.close()
         return e[0][0]
 
@@ -310,10 +301,11 @@ class Orders:
         self.cart = cart
         self.username = username
         self.database = database
+        self.confirm = False
 
-    def placeorder(self, cost, intrest=None):
+    def placeorder(self, cost):
         self.cart.viewcartdetails()
-        self.cart.checkout(cost, intrest)
+        self.cart.checkout(cost)
         cur = self.database.connection.cursor()
         q = 'SELECT return_cart FROM MyUsers WHERE username LIKE %s'
         cur.execute(q, [self.username])

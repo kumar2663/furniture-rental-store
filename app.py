@@ -3,6 +3,8 @@ from flask_mysqldb import MySQL
 from user import Customer, Adminstrator, User
 from Product import Category, Product, RentingCart, Orders
 from return_cart import Return
+from email_sender import mail, send_email
+from url_generator import generate_confirmation_token, confirm_token
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'remotemysql.com'
@@ -10,7 +12,15 @@ app.config['MYSQL_USER'] = 'p8t6kzaeEk'
 app.config['MYSQL_PASSWORD'] = '5R9kzJJJ41'
 app.config['MYSQL_DB'] = 'p8t6kzaeEk'
 app.config['MYSQL_PORT'] = 3306
+app.config['DEFAULT_MAIL_SENDER'] = "testapp12a45@gmail.com"
+app.config['SECURITY_PASSWORD_SALT'] = "vijay kumar 6326"
 app.secret_key = "iamvijaykumar"
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = 'testapp12a45@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Naku Teliyadhu'
 mysql = MySQL(app)
 data = {
     'users': 0,
@@ -50,6 +60,7 @@ def hello():
         if details['login'] == "signup":
             if user.register(details["email"], details["password"], mysql):
                 session["username"] = user.username
+                session['email'] = details["email"]
                 return render_template("home.html", name=user.username)
             else:
                 return render_template('login.html', sign=' ', type='hidden')
@@ -61,6 +72,7 @@ def hello():
                     return redirect(url_for("join_admin"))
                 elif user.login(details['password'], mysql):
                     session["username"] = details['username']
+                    session['email'] = details["email"]
                     return redirect(url_for("home"))
                 else:
                     return render_template('login.html', type=' ', name='password')
@@ -85,14 +97,18 @@ def join_admin():
                 user.deleteuser(details['username'])
             if details['type'] == "update item":
                 if user.updatecatalog(details):
-                    return render_template("admin.html", name=session["username"], action="Successful", need=need, data=data)
+                    return render_template("admin.html", name=session["username"], action="Successful", need=need,
+                                           data=data)
                 else:
-                    return render_template("admin.html", name=session["username"], action="Unsuccessful", need=need, data=data)
+                    return render_template("admin.html", name=session["username"], action="Unsuccessful", need=need,
+                                           data=data)
             if details['type'] == "update price":
                 if user.updateprice(details):
-                    return render_template("admin.html", name=session["username"], action="Successful", need=need, data=data)
+                    return render_template("admin.html", name=session["username"], action="Successful", need=need,
+                                           data=data)
                 else:
-                    return render_template("admin.html", name=session["username"], action="Unsuccessful", need=need, data=data)
+                    return render_template("admin.html", name=session["username"], action="Unsuccessful", need=need,
+                                           data=data)
             if details['type'] == "update data":
                 return redirect(url_for("join_admin"))
     return render_template("admin.html", name=session["username"], action="", need=need, data=data)
@@ -177,6 +193,7 @@ def forgot_password():
 @app.route("/logout")
 def logout():
     session.pop("username", None)
+    session.pop("email", None)
     return redirect(url_for("hello"))
 
 
@@ -201,11 +218,14 @@ def cart():
         user = Customer(session['username'])
         if user.data_updated(mysql):
             if details['type'] == "payment":
-                if details['payment'] == "Loan":
-                    order = Orders(rent, session['username'], mysql)
-                    order.placeorder(rent.calprice(content, "1"), "1")
-                    return redirect(url_for("acoount_info"))
                 if details['payment'] == "complete payment":
+                    token = generate_confirmation_token("kvijaykumar6326@gmail.com", app.secret_key, app.config['SECURITY_PASSWORD_SALT'])
+                    confirm_url = url_for('confirm_email', token=token, _external=True)
+                    mail.init_app(app)
+                    template = f'<p>An Order has been booked please confirm if you received payment.' \
+                               f'</p>{session["username"]}<p>' \
+                               f'<a href="{confirm_url}">{confirm_url}</a></p><br><p>Cheers!</p> '
+                    send_email(app.config['DEFAULT_MAIL_SENDER'], "kvijaykumar6326@gmail.com", f"An Order is placed by {session['username']}", template)
                     order = Orders(rent, session['username'], mysql)
                     order.placeorder(rent.calprice(content))
                     return redirect(url_for("acoount_info"))
@@ -213,6 +233,15 @@ def cart():
             flash("Please fill all the details Delivery Adress and Adress and phoneNumber")
             return render_template('checkout.html', contents=content, cost=cost)
     return render_template('checkout.html', contents=content, cost=cost)
+
+
+@app.route('/confirm/<token>')
+@login_required
+def confirm_email(token):
+    email = confirm_token(token, app.secret_key, app.config['SECURITY_PASSWORD_SALT'])
+    print(email)
+    flash('You have confirmed your account. Thanks!', 'success')
+    return redirect(url_for('account_info'))
 
 
 if __name__ == "__main__":

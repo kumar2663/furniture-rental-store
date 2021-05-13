@@ -155,7 +155,27 @@
                 </div>
               </div>
             </li>
-                        {% if prev_order is not none: %}
+            {% if pending_order is not none: %}
+               {% for i in range(pending_order.split("//")|length-1) %}
+            <li class="collection-item avatar">
+              <div class="row">
+                   <div class="col s7">
+                     {% for j in range(pending_order.split("//")[i].split("/")|length) %}
+                           <p class="collections-title"><strong>{{ pending_order.split("//")[i].split("/")[j].split("-")[1] }}</strong>{{ pending_order.split("//")[i].split("/")[j].split("-")[0] }}</p>
+                  {% endfor %}
+              <a href="#" class="secondary-content"><i class="mdi-action-grade"></i></a>
+               </div>
+                <div class="col s2">
+                   <p> {{ pending_order_prices.split("/")[i] }}</p>
+                </div>
+                <div class="col s3">
+                    <p>Your has to be confirmed please stay paitence</p>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+            {% endif %}
+            {% if prev_order is not none: %}
                {% for i in range(prev_order.split("//")|length-1) %}
             <li class="collection-item avatar">
               <div class="row">
@@ -174,8 +194,6 @@
                     <input hidden  name= "content" value="{{prev_order.split('//')[i]}}">
                     {% if return_cart.split("/")[i] == '0': %}
                     <input name={{"btn-"+i|string}} type="submit" value="Return Order">
-
-
                     {% else: %}
                       <input type="checkbox" name="{{i}}"  required><label> check if additional amount paid?</label>
                     {% endif %}
