@@ -315,7 +315,7 @@ class Orders:
             d[0] = "0/"
         else:
             d[0] = d[0] + "0/"
-        q = 'UPDATE MyUsers SET prev_order= %s,cart_price=%s,return_cart=%s WHERE username LIKE %s'
+        q = 'UPDATE MyUsers SET return_cart=%s WHERE username LIKE %s'
         cur.execute(q, [d[0], self.username])
         self.database.connection.commit()
         cur.close()
