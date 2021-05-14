@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, session, redirect, url_for, flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash, jsonify
 from flask_mysqldb import MySQL
 from user import Customer, Adminstrator, User
 from Product import Category, Product, RentingCart, Orders
 from return_cart import Return
 from email_sender import mail, send_email
 from url_generator import generate_confirmation_token, confirm_token
+import stripe
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'remotemysql.com'
@@ -21,6 +22,7 @@ app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_USERNAME'] = 'testapp12a45@gmail.com'
 app.config['MAIL_PASSWORD'] = 'Naku Teliyadhu'
+stripe.api_key = 'sk_test_51IqrlcSImy5pDjZQJW3JYWaCjs6XGviLxwNe2Bt7o8M7ViNrIkZ1YMFqJgVmxosT7phaDMAuFNf00cjHYmJK8mHl00LVqTDKKR'
 mysql = MySQL(app)
 data = {
     'users': 0,
@@ -213,60 +215,71 @@ def cart():
                     item = Product(i.split("_")[1], i.split("_")[0], mysql)
                     rent.deletecartitem(item, "1")
                     return redirect(url_for("cart"))
-        user = Customer(session['username'])
-        if user.data_updated(mysql):
-            if details['type'] == "payment":
-                if details['payment'] == "complete payment":
-                    token = generate_confirmation_token(f"{session['username']}///{content}///{details}",
-                                                        app.secret_key, app.config['SECURITY_PASSWORD_SALT'])
-                    confirm_url = url_for('confirm_email', token=token, _external=True)
-                    mail.init_app(app)
-                    template = f'<p>An Order has been booked please confirm if you received payment.' \
-                               f'</p>{session["username"]}<p>' \
-                               f'<a href="{confirm_url}">{confirm_url}</a></p><br><p>Cheers!</p> '
-                    send_email(app.config['DEFAULT_MAIL_SENDER'], "furniturerentalstore@gmail.com",
-                               f"An Order is placed by {session['username']}", template)
-                    order = Orders(rent, session['username'], mysql)
-                    order.placeorder(rent.calprice(content))
-                    return redirect(url_for("acoount_info"))
-        else:
-            flash("Please fill all the details Delivery Adress and Adress and phoneNumber")
-            return render_template('checkout.html', contents=content, cost=cost)
-    return render_template('checkout.html', contents=content, cost=cost)
+    return render_template('checkout.html', contents=content, cost=cost, username=session['username'])
 
 
-@app.route('/confirm/<token>', methods=["GET", "POST"])
-def confirm_email(token):
-    username = confirm_token(token, app.secret_key, app.config['SECURITY_PASSWORD_SALT'])
-    details = username.split("///")[1]
-    details = eval(details)
-    if request.method == "POST":
-        customer = Customer(username.split("///")[0])
-        if customer.Complete_Pending_Order(username, mysql):
-            cur = mysql.connection.cursor()
-            q = 'SELECT email FROM MyUsers WHERE username LIKE %s'
-            cur.execute(q, [username.split("///")[0]])
-            email = cur.fetchone()[0]
-            template = f'<p>Your Order is successful you can visit and verify from our website' \
-                       f'<br><p>Cheers!</p> '
-            send_email(app.config['DEFAULT_MAIL_SENDER'], email,
-                       f"{username.split('///')[0]}, Your Order has been conformed", template)
-            flash('Order Payment is confirmed. Thanks!', 'success')
-            return render_template("confirm.html",
-                                   user=username.split("///")[0],
-                                   details=list(dict(details).keys()),
-                                   bank=eval(username.split("///")[2].split("[")[1].split("]")[0])[1][1])
-        else:
-            flash('Conformation is Already')
-            return render_template("confirm.html",
-                                   user=username.split("///")[0],
-                                   details=list(dict(details).keys()),
-                                   bank=eval(username.split("///")[2].split("[")[1].split("]")[0])[1][1])
+@app.route('/create-checkout-session', methods=['POST'])
+@login_required
+def create_checkout_session():
+    try:
+        cur = mysql.connection.cursor()
+        q = 'SELECT renting_cart,cart_price FROM MyUsers WHERE username LIKE %s'
+        cur.execute(q, [session['username']])
+        d = list(cur.fetchone())
+        list_p = []
+        products = d[0].split("/")
+        products.remove('')
+        for i in products:
+            q = 'SELECT image_url,selling_cost FROM furniture WHERE product LIKE %s'
+            cur.execute(q, [i.split("-")[0]])
+            p = list(cur.fetchone())
+            prod = {
+                'price_data': {
+                    'currency': 'inr',
+                    'unit_amount': p[1],
+                    'product_data': {
+                        'name': i.split("-")[0],
+                        'images': [p[0]],
+                    },
+                },
+                'quantity': i.split("-")[1],
+            }
+            list_p.append(prod)
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=list_p,
+            mode='payment',
+            success_url=url_for("success", _external=True),
+            cancel_url=url_for('cancel', _external=True),
+        )
+        return jsonify({'sessionId': checkout_session.id})
+    except Exception as e:
+        print(e)
+        return jsonify(error=str(e)), 403
 
-    return render_template("confirm.html",
-                           user=username.split("///")[0],
-                           details=list(dict(details).keys()),
-                           bank=eval(username.split("///")[2].split("[")[1].split("]")[0])[1][1])
+
+@app.route('/success')
+def success():
+    rent = RentingCart(session['username'], mysql)
+    content = rent.viewcartdetails()
+    cost = rent.calprice(content)
+    cart_now = Orders(rent, session['username'], mysql)
+    cart_now.placeorder(cost)
+    cur = mysql.connection.cursor()
+    q = 'SELECT email FROM MyUsers WHERE username LIKE %s'
+    cur.execute(q, [session['username']])
+    mail.init_app(app)
+    email = cur.fetchone()[0]
+    template = f'<p>Your Order is successful you can visit and verify from our website' \
+               f'<br><p>Thank U for shopping in our website</p><br><p>Cheers!</p> '
+    send_email(app.config['DEFAULT_MAIL_SENDER'], email,
+               f"{session['username']}, Your Order has been conformed", template)
+    return '<h1>Success</h1> <a class="dropdown-item" href="/account_info#MyOrders">Redirect to account Info</a>'
+
+
+@app.route('/failure')
+def cancel():
+    return '<h1>Failure</h1> <br> <a href="/cart&checkout" >MyCart</a>'
 
 
 if __name__ == "__main__":

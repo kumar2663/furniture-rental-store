@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>checkout & cart</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+  <script src="https://js.stripe.com/v3/"></script>
 <style>
 body {
   font-family: Arial;
@@ -169,25 +171,56 @@ span.price {
   <div class="col-50">
     <div class="container">
       <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b></b></span></h4>
-      <form method="post" action="">
-         <input hidden name="type" value="cart"/>
+
       <table>
       <h4><td style="font-size: 20px;padding-right: 58px;">Product</td><td style="font-size: 20px;padding-right: 58px;">No.Of Items</td><td style="font-size: 20px;padding-right: 58px;">cost/month</td> <td>Quantity</td> </h4>
       {% for i in contents.keys() %}
         <tr>
+          <form method="post">
+            <input hidden name="type" value="cart"/>
            <td style="font-size: 20px;padding-right: 58px;"><a href="/{{contents[i]['catogory']}}/{{contents[i]['name']}}" >{{contents[i]['name']}}</a></td>
            <td style="font-size: 20px;padding-right: 58px;">{{contents[i]['quantity']}}</td>
            <td style="font-size: 20px;padding-right: 58px;">{{contents[i]['cost']}}</td>
            <td><input type="submit" name="{{contents[i]['catogory']}}_{{contents[i]['name']}}" value="+" > <span> <input type="button" name="btn" value="{{contents[i]['quantity']}}" > </span> <input type="submit" name="{{contents[i]['catogory']}}_{{contents[i]['name']}}" value="-"  ></td>
+            </form>
           </tr>
       {% endfor %}
         </table>
-        </form>
+        <input hidden name="type" value="payment" >
+         <input hidden name="payment" value="checkout" >
       <hr>
       <p>Total <span class="price" style="color:black"><b>{{cost}}</b></span></p>
+      <button type="button" id="checkout-button">Checkout</button>
     </div>
   </div>
 </div>
-
+<script type="text/javascript">
+    // Create an instance of the Stripe object with your publishable API key
+    var stripe = Stripe("pk_test_51IqrlcSImy5pDjZQmVlTkFy6vLK9P2QSp2nSCMAHzAEY3o0V1QRulGKtcJktJvq4fahv0kl1uNtyebBiFGZr6riH00dkP0w431");
+    var checkoutButton = document.getElementById("checkout-button");
+    checkoutButton.addEventListener("click", function () {
+      fetch("/create-checkout-session", {
+        method: "POST",
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (session) {
+          console.log(session)
+          return stripe.redirectToCheckout({ sessionId: session.sessionId });
+        })
+        .then(function (result) {
+          // If redirectToCheckout fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using error.message.
+          if (result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error:", error);
+        });
+    });
+  </script>
 </body>
 </html>
