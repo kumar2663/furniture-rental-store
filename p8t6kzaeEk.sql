@@ -92,18 +92,6 @@ CREATE TABLE `MyUsers` (
   `additional` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Dumping data for table `MyUsers`
---
-
-INSERT INTO `MyUsers` (`username`, `user_pass`, `email`, `Address`, `Delivery_info`, `phone_number`, `renting_cart`, `prev_order`, `pending_order`, `pending_order_prices`, `cart_price`, `return_cart`, `dummy`, `additional`) VALUES
-('vijay 6326', 'Kvijay@26', 'kapalavayiv@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '4716', NULL, NULL, NULL),
-
---
--- Indexes for dumped tables
---
-
---
 -- Indexes for table `furniture`
 --
 ALTER TABLE `furniture`

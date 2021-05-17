@@ -8,21 +8,9 @@ from url_generator import generate_confirmation_token, confirm_token
 import stripe
 
 app = Flask(__name__)
-app.config['MYSQL_HOST'] = 'remotemysql.com'
-app.config['MYSQL_USER'] = 'p8t6kzaeEk'
-app.config['MYSQL_PASSWORD'] = '5R9kzJJJ41'
-app.config['MYSQL_DB'] = 'p8t6kzaeEk'
-app.config['MYSQL_PORT'] = 3306
-app.config['DEFAULT_MAIL_SENDER'] = "testapp12a45@gmail.com"
-app.config['SECURITY_PASSWORD_SALT'] = "vijay kumar 6326"
-app.secret_key = "iamvijaykumar"
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = 'testapp12a45@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Naku Teliyadhu'
-stripe.api_key = 'sk_test_51IqrlcSImy5pDjZQJW3JYWaCjs6XGviLxwNe2Bt7o8M7ViNrIkZ1YMFqJgVmxosT7phaDMAuFNf00cjHYmJK8mHl00LVqTDKKR'
+app.config.from_object('dataconfig.Config')
+app.secret_key = app.config['SECRET_KEY']
+stripe.api_key = app.config['STRIPE_SECRET_KEY']
 mysql = MySQL(app)
 data = {
     'users': 0,
@@ -283,4 +271,4 @@ def cancel():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
