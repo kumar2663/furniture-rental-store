@@ -1,3 +1,4 @@
+import os
 class User:
     def __init__(self, userid, password, database):
         self.userid = userid
@@ -9,7 +10,7 @@ class User:
     def verifylogin(self):
         cur = self.database.connection.cursor()
         q = 'SELECT user_pass FROM MyUsers WHERE username LIKE %s'
-        if self.userid == "vijay 6326":
+        if self.userid == os.environ['ADMIN_NAME']:
             cur.execute(q, [self.userid])
             password = cur.fetchone()[0]
             self.database.connection.commit()
@@ -105,7 +106,7 @@ class Customer:
 
 class Adminstrator:
     def __init__(self, mysql):
-        self.userid = "vijay 6326"
+        self.userid = os.environ['ADMIN_NAME']
         self.database = mysql
 
     def adduser(self, userid, email, password):
@@ -171,8 +172,8 @@ class Adminstrator:
         cur.execute(q)
         data['investment'] = cur.fetchall()[0][0]
         self.database.connection.commit()
-        q = 'SELECT cart_price FROM MyUsers WHERE username LIKE "vijay 6326"'
-        cur.execute(q)
+        q = 'SELECT cart_price FROM MyUsers WHERE username LIKE %s'
+        cur.execute(q, os.environ['ADMIN_NAME'])
         data['income'] = cur.fetchall()[0][0]
         self.database.connection.commit()
         cur.close()

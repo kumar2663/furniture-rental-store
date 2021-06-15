@@ -1,3 +1,4 @@
+import os
 class Return:
     def __init__(self, user, database):
         self.user = user
@@ -49,8 +50,8 @@ class Return:
         q = 'UPDATE MyUsers SET additional = %s WHERE username LIKE %s'
         cur.execute(q, [e, self.user])
         self.database.connection.commit()
-        q = 'SELECT cart_price FROM MyUsers WHERE username LIKE "vijay 6326"'
-        cur.execute(q)
+        q = 'SELECT cart_price FROM MyUsers WHERE username LIKE %s'
+        cur.execute(q, os.environ['ADMIN_NAME'])
         e = cur.fetchall()[0][0]
         self.database.connection.commit()
         if e is not None:

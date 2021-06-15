@@ -1,4 +1,5 @@
 import math
+import os
 
 
 class Category:
@@ -279,18 +280,18 @@ class RentingCart:
             cur.execute(q, [c + str(cost) + '/', self.username])
             self.database.connection.commit()
         q = 'SELECT cart_price FROM MyUsers WHERE username LIKE %s'
-        cur.execute(q, ["vijay 6326"])
+        cur.execute(q, [os.environ['ADMIN_NAME']])
         self.database.connection.commit()
         c = cur.fetchall()
         c = c[0][0]
         if c is None:
             q = 'UPDATE MyUsers SET cart_price=%s WHERE username=%s'
-            cur.execute(q, [cost, "vijay 6326"])
+            cur.execute(q, [cost, os.environ['ADMIN_NAME']])
             self.database.connection.commit()
         else:
             q = 'UPDATE MyUsers SET cart_price=%s WHERE username=%s'
             cost = str(int(c.split("/")[0]) + int(cost))
-            cur.execute(q, [cost, "vijay 6326"])
+            cur.execute(q, [cost, os.environ['ADMIN_NAME']])
             self.database.connection.commit()
         cur.close()
         return e[0][0]
