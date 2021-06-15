@@ -1,18 +1,21 @@
+import os
+
+
 class Config(object):
     DEBUG = False
     TESTING = False
-    MYSQL_HOST = 'remotemysql.com'
-    MYSQL_USER = 'p8t6kzaeEk'
-    MYSQL_PASSWORD = '5R9kzJJJ41'
-    MYSQL_DB = 'p8t6kzaeEk'
-    MYSQL_PORT = 3306
-    DEFAULT_MAIL_SENDER = "testapp12a45@gmail.com"
-    SECURITY_PASSWORD_SALT = "vijay kumar 6326"
-    SECRET_KEY = "iamvijaykumar"
-    MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 465
+    MYSQL_HOST = os.environ["MYSQL_HOST"]
+    MYSQL_USER = os.environ["MYSQL_USER"]
+    MYSQL_PASSWORD = os.environ["MYSQL_PASSWORD"]
+    MYSQL_DB = os.environ["MYSQL_DB"]
+    MYSQL_PORT = os.environ["MYSQL_PORT"]
+    DEFAULT_MAIL_SENDER = os.environ["DEFAULT_MAIL_SENDER"]
+    SECURITY_PASSWORD_SALT = os.environ["SECURITY_PASSWORD_SALT"]
+    SECRET_KEY = os.environ["SECRET_KEY"]
+    MAIL_SERVER = os.environ["MAIL_SERVER"]
+    MAIL_PORT = os.environ["MAIL_PORT"]
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
-    MAIL_USERNAME = 'testapp12a45@gmail.com'
-    MAIL_PASSWORD = 'Naku Teliyadhu'
-    STRIPE_SECRET_KEY = 'sk_test_51IqrlcSImy5pDjZQJW3JYWaCjs6XGviLxwNe2Bt7o8M7ViNrIkZ1YMFqJgVmxosT7phaDMAuFNf00cjHYmJK8mHl00LVqTDKKR'
+    MAIL_USERNAME = os.environ["MAIL_USERNAME"]
+    MAIL_PASSWORD = os.environ["MAIL_PASSWORD"]
+    STRIPE_SECRET_KEY = os.environ["STRIPE_SECRET_KEY"]
