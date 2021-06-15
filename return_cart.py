@@ -51,7 +51,7 @@ class Return:
         cur.execute(q, [e, self.user])
         self.database.connection.commit()
         q = 'SELECT cart_price FROM MyUsers WHERE username LIKE %s'
-        cur.execute(q, os.environ['ADMIN_NAME'])
+        cur.execute(q, [os.environ['ADMIN_NAME']])
         e = cur.fetchall()[0][0]
         self.database.connection.commit()
         if e is not None:
