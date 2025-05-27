@@ -4,5 +4,5 @@ Databas is hosted using a free MYSQL host which may be expired after a couple of
 this is have two types customer and administrator
 Administrator details
 Username:- vijay 6326
-password:- Kvijay@26
+password:- uygiygg
 you can visit site from https://furniture-rentalstore.herokuapp.com/
